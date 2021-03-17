@@ -1,0 +1,96 @@
+<div>
+    <label>Get One Item By Item No.</label><br>
+    <mat-form-field>
+    <input type="text" matInput placeholder="Item No." [formControl]="idControl"/>
+    <mat-error>Please Enter Item No.</mat-error>
+    </mat-form-field><br>
+      <button mat-raised-button (click)="getItemDetails()">Get Item</button>
+      <button mat-raised-button (click)="getItems()">All Items</button>
+      <table *ngIf="item">
+        <thead>
+          <tr>
+            <th>Item No.</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Inventory Code</th>
+            <th></th>
+            <th></th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{item.itemNumber}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.amount}}</td>
+            <td>{{item.inventoryCode}}</td>
+          </tr>
+        </tbody>
+        
+      </table>
+    
+  </div>
+  <div>
+  
+      <table>
+        <thead>
+          <tr>
+            <th>Item No.</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Inventory Code</th>
+            <th></th>
+            <th></th>
+            
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i of items">
+            <td>{{i.itemNumber}}</td>
+            <td>{{i.name}}</td>
+            <td>{{i.amount}}</td>
+            <td>{{i.inventoryCode}}</td>
+            <td> <button mat-raised-button (click)="withdraw(i.itemNumber,i.amount)">withdraw</button></td>
+            <td> <button mat-raised-button (click)="deposit(i.itemNumber,i.amount)">deposit</button></td>
+            <td> <button mat-raised-button (click)="edit(i)"><mat-icon>update</mat-icon></button></td>
+            <td> <button mat-raised-button (click)="deleteItem(i.itemNumber)" ><mat-icon>delete</mat-icon></button></td>
+          </tr>
+        </tbody>
+        
+      </table>
+      <div class="container">
+        <mat-label>Add New Item</mat-label><br>
+        <form [formGroup]="_itemForm">
+            <div class="form-group">
+                <div class="row">
+                  
+                      <div class="col-md-6">
+                        <input placeholder="Name" type="text" formControlName="name" class="form-control">
+                      </div>
+                      <div class="alert alert-danger" *ngIf="name.invalid && name.touched">test test</div>
+                      
+                      <div class="col-md-6">
+                        <input placeholder="Amount" type="text" formControlName="amount" class="form-control">
+                      </div>
+                      <div class="alert alert-danger" *ngIf="amount.invalid && amount.touched">fefefe</div>
+                    
+                      <div class="col-md-6">
+                      <select placeholder="inventory Code" type="text" formControlName="inventoryCode" class="form-control">
+                          <option value="food">Food</option>
+                          <option value="electronics">Electronics</option>
+                          <option value="clothes">Clothes</option>
+                      </select>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <button mat-raised-button type="submit" class="btn btn-success" (click)="onAdd()">
+                    Add
+                </button>
+    
+            </div>
+        </form>
+    </div>
+      
+    </div>
+        

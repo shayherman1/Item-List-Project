@@ -1,0 +1,31 @@
+<div>
+    <h2>Edit Coupon</h2>
+    <form [formGroup]="updateItemForm" (submit)="updateItem()">
+        <div class="form-group">
+            <div class="row">
+                <select placeholder="inventory Code" type="text" formControlName="inventorycode" class="form-control">
+                    <option>Food</option>
+                    <option>Electronics</option>
+                    <option>Clothes</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <input placeholder="Name" type="text" formControlName="name" class="form-control">
+            </div>
+            <div class="col-md-6">
+                <input placeholder="Amount" type="text" formControlName="amount" class="form-control">
+            </div>
+            
+        
+        </div>
+        
+        <div>
+            <button mat-rasied-button type="submit" class="btn btn-success" (click)="updateItem()">Edit</button>
+        </div>
+        <div>
+            
+            <button mat-rasied-button type="submit" (click)="cancel()">Cancel</button>
+        </div>
+        
+    </form>
+</div>

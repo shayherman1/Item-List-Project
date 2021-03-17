@@ -1,0 +1,19 @@
+table {
+    width:100%;
+    text-align: center;
+}
+
+
+h1{
+    text-align: center;
+    
+}
+
+toolbar-fill{
+    flex: 1 1 auto;
+
+}
+
+main{
+    margin: 20%;
+}

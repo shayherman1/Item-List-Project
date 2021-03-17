@@ -1,0 +1,21 @@
+<div>
+    <h2>Withdraw</h2>
+    <form [formGroup]="withdrawItemForm" (submit)="withdrawItem()">
+        <div class="form-group">
+        
+            <div class="col-md-6">
+                <input placeholder="Withdraw amount" type="text" formControlName="amount" class="form-control">
+            </div>
+            
+        </div>
+        
+        <div>
+            <button mat-rasied-button type="submit" class="btn btn-success" (click)="withdrawItem()">withdraw</button>
+        </div>
+        <div>
+            
+            <button mat-rasied-button type="submit" (click)="cancel()">Cancel</button>
+        </div>
+        
+    </form>
+</div>
