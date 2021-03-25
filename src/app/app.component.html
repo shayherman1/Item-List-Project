@@ -52,7 +52,7 @@
             <td>{{i.inventoryCode}}</td>
             <td> <button mat-raised-button (click)="withdraw(i.itemNumber,i.amount)">withdraw</button></td>
             <td> <button mat-raised-button (click)="deposit(i.itemNumber,i.amount)">deposit</button></td>
-            <td> <button mat-raised-button (click)="edit(i)"><mat-icon>update</mat-icon></button></td>
+            <td> <button mat-raised-button (click)="editItem(i)"><mat-icon>update</mat-icon></button></td>
             <td> <button mat-raised-button (click)="deleteItem(i.itemNumber)" ><mat-icon>delete</mat-icon></button></td>
           </tr>
         </tbody>
@@ -60,7 +60,7 @@
       </table>
       <div class="container">
         <mat-label>Add New Item</mat-label><br>
-        <form [formGroup]="_itemForm">
+        <form [formGroup]="_itemForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
                 <div class="row">
                   
@@ -71,8 +71,10 @@
                       
                       <div class="col-md-6">
                         <input placeholder="Amount" type="text" formControlName="amount" class="form-control">
+                        <div class="alert alert-danger" *ngIf="amount.invalid && amount.touched">
+                          <!-- <div *ngIf="amount.errors.required">Test</div> -->
+                        </div>
                       </div>
-                      <div class="alert alert-danger" *ngIf="amount.invalid && amount.touched">fefefe</div>
                     
                       <div class="col-md-6">
                       <select placeholder="inventory Code" type="text" formControlName="inventoryCode" class="form-control">
@@ -84,7 +86,7 @@
                 </div>
             </div>
             <div class="row">
-                <button mat-raised-button type="submit" class="btn btn-success" (click)="onAdd()">
+                <button mat-raised-button type="submit" class="btn btn-success">
                     Add
                 </button>
     

@@ -41,7 +41,7 @@ export class ItemService {
     const httpOptions = {
       headers: new HttpHeaders({ 
         'Access-Control-Allow-Origin':'*',
-        contentType:'application/json'
+        'contentType':'application/json'
       })
     };
     console.log( amount);
@@ -58,14 +58,19 @@ export class ItemService {
     };
     console.log( amount);
     const baseurl = 'http://localhost:8080/items/deposit/' +  itemNumber + '/' + amount ;
-    return this.http.put(baseurl,httpOptions,{responseType:'text'});
+    return this.http.put(baseurl,httpOptions);
 
   }
 
-  public addItem(item:Item){
+  public addItem(item: Item){
+    const httpOptions = new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        "Accept": "*/*",
+        
+      })
     
 
-    return this.http.post<any>('http://localhost:8080/items/addItem', item);
+    return this.http.post<Item>('http://localhost:8080/items/addItem', item, {headers: httpOptions} );
   }
 
   public deleteItem(itemNumber:number): Observable<Item>{
@@ -73,8 +78,13 @@ export class ItemService {
   }
  
 
-  public updateItem(item:Item): Observable<Item>{
-    return this.http.put<Item>('http://localhost:8080/items/updateItem',item);
+  public updateItem(item:Item){
+    const httpOptions = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      "Accept": "*/*",
+      
+    })
+    return this.http.put<Item>('http://localhost:8080/items/updateItem', item, {headers: httpOptions} );
   }
 
 

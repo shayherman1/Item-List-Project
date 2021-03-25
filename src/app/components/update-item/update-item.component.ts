@@ -15,7 +15,9 @@ export class UpdateItemComponent implements OnInit {
   updateItemForm:FormGroup;
 
   constructor(private dialogRef:MatDialogRef<UpdateItemComponent>, @Inject(MAT_DIALOG_DATA) data:any,private service:ItemService,
-  private fb:FormBuilder) { }
+  private fb:FormBuilder) { 
+    this.item = data.itm;
+  }
 
   ngOnInit(): void {
    this.updateItemForm = this.fb.group({
@@ -34,9 +36,9 @@ export class UpdateItemComponent implements OnInit {
 public updateItem(){
   let itm:Item = new Item(
     this.item.itemNumber,
-    this.item.name,
-    this.item.amount,
-    this.item.inventoryCode
+    this.updateItemForm.controls['name'].value,
+    this.updateItemForm.controls['amount'].value,
+    this.updateItemForm.controls['inventoryCode'].value
   );
   this.service.updateItem(itm).subscribe(
     (res:any)=>{
@@ -50,5 +52,8 @@ public updateItem(){
 public cancel(){
   this.dialogRef.close();
 }
+
+
+
 
 }

@@ -1,12 +1,12 @@
 <div>
     <h2>Edit Coupon</h2>
-    <form [formGroup]="updateItemForm" (submit)="updateItem()">
+    <form [formGroup]="updateItemForm">
         <div class="form-group">
             <div class="row">
-                <select placeholder="inventory Code" type="text" formControlName="inventorycode" class="form-control">
-                    <option>Food</option>
-                    <option>Electronics</option>
-                    <option>Clothes</option>
+                <select placeholder="inventory Code" type="text" formControlName="inventoryCode" class="form-control">
+                    <option>food</option>
+                    <option>electronics</option>
+                    <option>clothes</option>
                 </select>
             </div>
             <div class="col-md-6">

@@ -22,17 +22,19 @@ export class WithdrawItemComponent implements OnInit {
  
   constructor(private dialogRef: MatDialogRef<WithdrawItemComponent>,
     @Inject(MAT_DIALOG_DATA) data:any, private service: ItemService,
-    private fb: FormBuilder) { this.item = data.itm; }
+    private fb: FormBuilder) { 
+      this.item = data; 
+      console.log(this.item);
+      console.log(data);
+    }
 
   ngOnInit(): void {
     
     this.withdrawItemForm = this.fb.group({
-
-
-      itemNumber: ['',Validators.required],
-      name: ['',Validators.required],
-      amount: ['', [Validators.required]],
-      inventoryCode:['',Validators.required]
+    
+      itemNumber: ['', [Validators.required]],
+      amount: ['', [Validators.required]]
+      
       
       
     });
@@ -44,15 +46,18 @@ export class WithdrawItemComponent implements OnInit {
 
   public withdrawItem() {
     let itm: Item = new Item(
-      this.withdrawItemForm.controls['itemNumber'].value,
-      this.withdrawItemForm.controls['name'].value,
+      this.item.itemNumber,
+      this.item.name,
       this.withdrawItemForm.controls['amount'].value,
-      this.withdrawItemForm.controls['inventoryCode'].value,
+      this.item.inventoryCode,
     );
+
+    this
     console.log(itm);
     console.log(this.item);
-    this.service.withdrawItem(this.withdrawItemForm.controls['amount'].value,this.withdrawItemForm.controls['itemNumber'].value).subscribe(
+    this.service.withdrawItem(this.item.itemNumber,this.withdrawItemForm.controls['amount'].value).subscribe(
       (res:any) => {
+        console.log(this.item.itemNumber)
         this.items = res;
         this.dialogRef.close(res);
       }, (err) => {

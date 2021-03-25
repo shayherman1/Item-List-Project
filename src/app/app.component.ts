@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { fromEventPattern } from 'rxjs';
+import { fromEventPattern, Observable } from 'rxjs';
 import { DepositItemComponent } from './components/deposit-item/deposit-item.component';
 import { UpdateItemComponent } from './components/update-item/update-item.component';
 import { WithdrawItemComponent } from './components/withdraw-item/withdraw-item.component';
@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   itemNumber:number;
   
   isPopUpOpened = true;
-  public _itemForm: FormGroup;
+  _itemForm: FormGroup;
   items: Item[];
   items2: Item
   item: Item;
@@ -38,7 +38,6 @@ ngOnInit(): void {
   this.amountControl = new FormControl('',Validators.required);
 
   this._itemForm = this._fb.group({
-    itemNumber:[],
     name: ["",[Validators.required]],
     amount:["",[Validators.required]],
     inventoryCode:["",Validators.required],
@@ -47,15 +46,15 @@ ngOnInit(): void {
     
 }
 get name() {
-  return this._itemForm.controls['name'].value;
+  return this._itemForm.controls['name'];
 }
 
 get amount() {
- return this._itemForm.controls['amount'].value;
+ return this._itemForm.controls['amount'];
 }
 
 get inventorycode() {
-  return this._itemForm.controls['inventoryCode'].value;
+  return this._itemForm.controls['inventoryCode'];
 
 }
 
@@ -90,21 +89,45 @@ public getItemDetails(){
  })
 
   }
-
-onAdd(){
-  let newItem:Item = new Item(0,
-    this._itemForm.controls['name'].value,
-    this._itemForm.controls['amount'].value,
-    this._itemForm.controls['inventoryCode'].value)
-    this.service.addItem(newItem).subscribe(
+  
+  onSubmit(){
+    const newUser: Item = new Item(
+      0,
+      this._itemForm.value.name,
+      this._itemForm.value.amount,
+      this._itemForm.value.inventoryCode
+    ) 
+    
+    this.service.addItem(newUser).subscribe(
       (add:any)=>{
-        this.items = add;
+        this.items=add;
+        // this.items.push(add);
+         
+        
         this.formReset(this._itemForm);
-      },(err)=>{
-        alert(err.error);
       }
       )
-    }
+  
+  // console.log(newUser);
+}
+
+// onAdd(){
+//   let newItem:Item = new Item(0,
+//     this._itemForm.controls['name'].value,
+//     this._itemForm.controls['amount'].value,
+//     this._itemForm.controls['inventoryCode'].value)
+//     this.service.addItem(newItem).subscribe(
+//       (add: Item)=>{
+//         let res = add;
+//         console.log(res);
+//         // this.items.splice(0, 0, res);
+        
+//         this.formReset(this._itemForm);
+//       },(err)=>{
+//         alert(err.error);
+//       }
+//       )
+//     }
 
 
 public deleteItem(itemNumber: number){
@@ -122,7 +145,7 @@ public withdraw(itemNumber:number,amount:number){
   dialogConfig.restoreFocus = true;
   dialogConfig.data = {
     itmNum:itemNumber,
-    amt: amount
+    amt: this.amountControl.value,
   };
 
   const dialogRef = this.dialog.open(WithdrawItemComponent, dialogConfig);
@@ -156,7 +179,7 @@ public deposit(itemNumber:number,amount:number){
 }
 
 
-public edit(item:Item){
+public editItem(item:Item){
   const dialogConfig = new MatDialogConfig();
   dialogConfig.autoFocus = true;
   dialogConfig.restoreFocus = true;
